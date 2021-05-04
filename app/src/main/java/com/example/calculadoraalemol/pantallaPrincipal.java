@@ -61,9 +61,13 @@ public class pantallaPrincipal extends AppCompatActivity {
         for (Button boton : botonesNumeros)
             pulsarNum(boton);
 
+        // Genero el resto de botones
         btnIgual = findViewById(R.id.botonIgual);
         btnLimpiar = findViewById(R.id.botonLimpiar);
         btnSuma = findViewById(R.id.botonSuma);
+        btnResta = findViewById(R.id.botonResta);
+        btnMulti = findViewById(R.id.botonMultiplicar);
+        btnDiv = findViewById(R.id.botonDividir);
 
         pulsarOperaciones();
 
@@ -71,33 +75,56 @@ public class pantallaPrincipal extends AppCompatActivity {
 
     private void pulsarOperaciones() {
         pulsarSuma();
+        pulsarResta();
+        pulsarDiv();
+        pulsarMult();
+
         pulsarIgual();
+        pulsarLimpiar();
+    }
+
+    private void pulsarMult() {
+        btnMulti.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                operacionMult();
+            }
+        });
+    }
+
+    private void pulsarDiv() {
+        btnDiv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                operacionDiv();
+            }
+        });
+    }
+
+    private void pulsarResta() {
+        btnResta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // ((TextView)findViewById(R.id.pantalla)).setText("- - -");
+                operacionResta();
+            }
+        });
 
     }
 
-    private void operacionIgual(){
-        switch (operacion){
-            case RESTA: break;
-            case SUMA: operacionSuma(); break;
-        }
-    }
-
-    private void operacionSuma(){
-        if (operador2 != "")
-            numero2 = Double.parseDouble(operador2);
-        else
-            numero2 = 0;
-        this.resultado = resultado + numero2;
-        this.operacion = SUMA;
-        operador2 = "";
-        ((TextView) findViewById(R.id.pantalla)).setText(""+this.resultado);
+    private void pulsarLimpiar(){
+        btnLimpiar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                operacionLimpiar();
+            }
+        });
     }
 
     private void pulsarSuma(){
         btnSuma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // ((TextView)findViewById(R.id.pantalla)).setText("+");
                 operacionSuma();
             }
         });
@@ -123,11 +150,91 @@ public class pantallaPrincipal extends AppCompatActivity {
     }
 
 
+    private void operacionResta() {
+        numero2 = Double.parseDouble(operador2);
+        if (operacion == VACIA) {   //Deja el primer número en positivo
+            this.resultado = numero2;
+        } else {
+            this.resultado = resultado - numero2;
+        }
+
+        this.operacion = RESTA;
+        operador2 = "";
+        cargarEnPantalla(resultado);
+    }
+
+    public void operacionIgual(){
+        switch (operacion) {
+            case RESTA: operacionResta(); break;
+            case SUMA: operacionSuma(); break;
+            case DIVISION: operacionDiv(); break;
+            case MULTIPLICACION: operacionMult(); break;
+            case VACIA:
+            default:
+                if(operador2 != "") {
+                    resultado = Double.parseDouble(operador2);
+                    operador2 = "";
+                }
+                cargarEnPantalla(resultado); break;
+        }
+        operacion = VACIA;
+    }
+
+    private void operacionMult() {
+        numero2 = Double.parseDouble(operador2);
+        if (operacion == VACIA)
+            this.resultado = numero2;
+        else
+            this.resultado = resultado * numero2;
+        this.operacion = MULTIPLICACION;
+        operador2 = "";
+        cargarEnPantalla(resultado);
+    }
+
+    private void operacionDiv() {
+        numero2 = Double.parseDouble(operador2);
+        if (operacion == VACIA)
+            this.resultado = numero2;   // Hasta aquí si
+        else {
+            if (numero2 !=0)
+               this.resultado = resultado / numero2;
+            else
+                this.resultado = 0; //Añadir un mensaje en pantalla y luego a 0
+        }
+        this.operacion = DIVISION;
+        operador2 = "";
+        cargarEnPantalla(resultado);
+    }
+
+    private void operacionLimpiar(){
+        this.numero2 = 0;
+        this.resultado = 0;
+        this.operacion = VACIA;
+        this.operador2 = "0";
+        cargarEnPantalla(resultado);
+    }
+
+    /**
+     * Operación de suma
+     */
+    private void operacionSuma(){
+        if (operador2 != "")
+            numero2 = Double.parseDouble(operador2);
+        else
+            numero2 = 0;
+        this.resultado = resultado + numero2;
+        this.operacion = SUMA;
+        operador2 = "";
+        cargarEnPantalla(resultado);
+    }
+
+
+
     private void cargarEnPantalla(String texto){
         ((TextView) findViewById(R.id.pantalla)).setText(texto);    // Debería cambiar la pantalla
     }
 
     private void cargarEnPantalla(double num){
-        ((TextView) findViewById(R.id.pantalla)).setText("" + num);
+        ((TextView) findViewById(R.id.pantalla)).setText(""+num);
     }
 }
