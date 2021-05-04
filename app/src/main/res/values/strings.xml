@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">calculadoraAlemol</string>
+    <string name="valorSalida">0</string>
+</resources>
