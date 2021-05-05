@@ -225,10 +225,14 @@ public class pantallaPrincipal extends AppCompatActivity {
      * operación de multiplicar
      */
     private void operacionMult() {
-        sigNumero = Double.parseDouble(numeroStr);
-        if (operacion == VACIA)
-            this.resultado = sigNumero;
+        if(numeroStr != "")
+            sigNumero = Double.parseDouble(numeroStr);
         else
+            sigNumero = 1;
+
+        //if (operacion == VACIA)
+        //    this.resultado = sigNumero;
+        //else
             this.resultado = resultado * sigNumero;
         this.operacion = MULTIPLICACION;
         numeroStr = "";
@@ -240,15 +244,19 @@ public class pantallaPrincipal extends AppCompatActivity {
      * operación para dividir
      */
     private void operacionDiv() {
-        sigNumero = Double.parseDouble(numeroStr);
-        if (operacion == VACIA)
-            this.resultado = sigNumero;   // Hasta aquí si
-        else {
+        if(numeroStr != "")
+            sigNumero = Double.parseDouble(numeroStr);
+        else
+            sigNumero = 1;
+
+        //if (operacion == VACIA)
+        //    this.resultado = sigNumero;   // Hasta aquí si
+        //else {
             if (sigNumero !=0)
                this.resultado = resultado / sigNumero;
             else
                 this.resultado = 0; //Añadir un mensaje en pantalla y luego a 0
-        }
+        //}
         this.operacion = DIVISION;
         numeroStr = "";
         desactivarHayDecimales();
@@ -286,13 +294,17 @@ public class pantallaPrincipal extends AppCompatActivity {
      * Operación de resta
      */
     private void operacionResta() {
-        sigNumero = Double.parseDouble(numeroStr);
-        if (operacion == VACIA) {   //Deja el primer número en positivo
-            this.resultado = sigNumero;
-        } else {
-            this.resultado = resultado - sigNumero;
-        }
+        if(numeroStr != "")
+            sigNumero = Double.parseDouble(numeroStr);
+        else
+            sigNumero = 0;
+        //if (operacion == VACIA) {   //Deja el primer número en positivo
+          //  this.resultado = sigNumero;
+        //} else {
+          //  this.resultado = resultado - sigNumero;
+        //}
 
+        this.resultado = resultado - sigNumero;
         this.operacion = RESTA;
         numeroStr = "";
         desactivarHayDecimales();
