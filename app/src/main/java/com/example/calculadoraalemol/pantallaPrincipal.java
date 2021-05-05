@@ -3,8 +3,11 @@ package com.example.calculadoraalemol;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -23,12 +26,15 @@ public class pantallaPrincipal extends AppCompatActivity {
     private Button btnLimpiar, btnIgual;
     private Button btnSuma, btnResta, btnMulti, btnDiv;
 
-    //private Button btnDecimales;      //Solo versión beta
-    //private boolean hayDecimales = false;
+    private Button btnDecimal;      //Solo versión beta
+    private boolean hayDecimales = false;
+
     private List<Button> botonesNumeros = new ArrayList<Button>();
     private String numeroStr;
     private int operacion;
     double sigNumero, resultado;
+
+    private Window ventana;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,15 +44,20 @@ public class pantallaPrincipal extends AppCompatActivity {
         sigNumero = 0;
         resultado = 0;
         operacion = VACIA;
-        //hayDecimales = false;
 
         creaBotones();
+
+        // Cambio color ventana
+        this.ventana = getWindow();
+        this.ventana.setStatusBarColor(Color.parseColor("#00695C"));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00695C")));
     }
 
     /**
      * Método para crear botones
      */
     private void creaBotones(){
+        // Todos los botones números se pulsan de la misma manera, así que los meto en una lista.
         botonesNumeros.add(findViewById(R.id.boton0));
         botonesNumeros.add(findViewById(R.id.boton1));
         botonesNumeros.add(findViewById(R.id.boton2));
@@ -68,22 +79,11 @@ public class pantallaPrincipal extends AppCompatActivity {
         btnResta = findViewById(R.id.botonResta);
         btnMulti = findViewById(R.id.botonMultiplicar);
         btnDiv = findViewById(R.id.botonDividir);
-        //btnDecimales = findViewById(R.id.botonDecimales);
+        btnDecimal = findViewById(R.id.botonDecimal);
 
         pulsarOperaciones();
-        //pulsarDecimal();
     }
 
-    /**
-     * añade los decimales
-     * Versión Beta
-     */
-    /*private void pulsarDecimal() {  //Beta
-        if (!hayDecimales) {
-            pulsarNum(btnDecimales);
-            hayDecimales = true;
-        }
-    }*/
 
     /**
      * Método para generar todas las pulsaciones.
@@ -95,6 +95,20 @@ public class pantallaPrincipal extends AppCompatActivity {
         pulsarMult();
         pulsarIgual();
         pulsarLimpiar();
+        pulsarDecimal();
+    }
+
+    /**
+     * añade los decimales
+     * Versión Beta
+     */
+    private void pulsarDecimal() {  //Beta
+        btnDecimal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                operacionDecimal();
+            }
+        });
     }
 
     /**
@@ -186,23 +200,6 @@ public class pantallaPrincipal extends AppCompatActivity {
     }
 
     /**
-     * Operación de resta
-     */
-    private void operacionResta() {
-        sigNumero = Double.parseDouble(numeroStr);
-        if (operacion == VACIA) {   //Deja el primer número en positivo
-            this.resultado = sigNumero;
-        } else {
-            this.resultado = resultado - sigNumero;
-        }
-
-        this.operacion = RESTA;
-        numeroStr = "";
-        //hayDecimales = false;
-        cargarEnPantalla(resultado);
-    }
-
-    /**
      * operación de Igual
      * llama al resto de operaciones si hace falta.
      */
@@ -217,7 +214,7 @@ public class pantallaPrincipal extends AppCompatActivity {
                 if(numeroStr != "") {
                     resultado = Double.parseDouble(numeroStr);
                     numeroStr = "";
-                    //hayDecimales = false;
+                    desactivarHayDecimales();
                 }
                 cargarEnPantalla(resultado); break;
         }
@@ -228,14 +225,18 @@ public class pantallaPrincipal extends AppCompatActivity {
      * operación de multiplicar
      */
     private void operacionMult() {
-        sigNumero = Double.parseDouble(numeroStr);
-        if (operacion == VACIA)
-            this.resultado = sigNumero;
+        if(numeroStr != "")
+            sigNumero = Double.parseDouble(numeroStr);
         else
+            sigNumero = 1;
+
+        //if (operacion == VACIA)
+        //    this.resultado = sigNumero;
+        //else
             this.resultado = resultado * sigNumero;
         this.operacion = MULTIPLICACION;
         numeroStr = "";
-        //hayDecimales = false;
+        desactivarHayDecimales();
         cargarEnPantalla(resultado);
     }
 
@@ -243,18 +244,22 @@ public class pantallaPrincipal extends AppCompatActivity {
      * operación para dividir
      */
     private void operacionDiv() {
-        sigNumero = Double.parseDouble(numeroStr);
-        if (operacion == VACIA)
-            this.resultado = sigNumero;   // Hasta aquí si
-        else {
+        if(numeroStr != "")
+            sigNumero = Double.parseDouble(numeroStr);
+        else
+            sigNumero = 1;
+
+        //if (operacion == VACIA)
+        //    this.resultado = sigNumero;   // Hasta aquí si
+        //else {
             if (sigNumero !=0)
                this.resultado = resultado / sigNumero;
             else
                 this.resultado = 0; //Añadir un mensaje en pantalla y luego a 0
-        }
+        //}
         this.operacion = DIVISION;
         numeroStr = "";
-        //hayDecimales = false;
+        desactivarHayDecimales();
         cargarEnPantalla(resultado);
     }
 
@@ -266,7 +271,7 @@ public class pantallaPrincipal extends AppCompatActivity {
         this.resultado = 0;
         this.operacion = VACIA;
         this.numeroStr = "0";
-        //this.hayDecimales = false;
+        this.hayDecimales = false;
         cargarEnPantalla(resultado);
     }
 
@@ -281,10 +286,39 @@ public class pantallaPrincipal extends AppCompatActivity {
         this.resultado = resultado + sigNumero;
         this.operacion = SUMA;
         numeroStr = "";
-        //hayDecimales = false;
+        desactivarHayDecimales();
         cargarEnPantalla(resultado);
     }
 
+    /**
+     * Operación de resta
+     */
+    private void operacionResta() {
+        if(numeroStr != "")
+            sigNumero = Double.parseDouble(numeroStr);
+        else
+            sigNumero = 0;
+        //if (operacion == VACIA) {   //Deja el primer número en positivo
+          //  this.resultado = sigNumero;
+        //} else {
+          //  this.resultado = resultado - sigNumero;
+        //}
+
+        this.resultado = resultado - sigNumero;
+        this.operacion = RESTA;
+        numeroStr = "";
+        desactivarHayDecimales();
+        cargarEnPantalla(resultado);
+    }
+
+    private void operacionDecimal(){
+
+        if (hayDecimales == false) {
+            numeroStr = numeroStr + btnDecimal.getText();    //Añado el número pulsado
+            cargarEnPantalla(numeroStr);
+            hayDecimales = true;
+        }
+    }
 
 
     private void cargarEnPantalla(String texto){
@@ -293,5 +327,9 @@ public class pantallaPrincipal extends AppCompatActivity {
 
     private void cargarEnPantalla(double num){
         ((TextView) findViewById(R.id.pantalla)).setText(""+num);
+    }
+
+    private void desactivarHayDecimales() {
+        this.hayDecimales = false;
     }
 }
