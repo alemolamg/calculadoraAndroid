@@ -51,8 +51,10 @@ public class pantallaPrincipal extends AppCompatActivity {
 
         // Cambio color ventana
         this.ventana = getWindow();
-        this.ventana.setStatusBarColor(Color.parseColor("#00695C"));
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00695C")));
+        this.ventana.setStatusBarColor(Color.parseColor("#00584C"));    //Barra arriba oscura
+        //this.ventana.setStatusBarColor(Color.parseColor("#008D7D"));    //Barra arriba clara
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00584C")));    //Barra arriba oscura
+        //getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#008D7D")));    //Barra arriba clara
     }
 
     /**
