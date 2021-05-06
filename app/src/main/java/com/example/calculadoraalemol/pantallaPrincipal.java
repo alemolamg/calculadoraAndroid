@@ -26,8 +26,10 @@ public class pantallaPrincipal extends AppCompatActivity {
     private Button btnLimpiar, btnIgual;
     private Button btnSuma, btnResta, btnMulti, btnDiv;
 
-    private Button btnDecimal;      //Solo versión beta
+    private Button btnDecimal;
     private boolean hayDecimales = false;
+
+    private Button btnCambioSigno;
 
     private List<Button> botonesNumeros = new ArrayList<Button>();
     private String numeroStr;
@@ -80,6 +82,7 @@ public class pantallaPrincipal extends AppCompatActivity {
         btnMulti = findViewById(R.id.botonMultiplicar);
         btnDiv = findViewById(R.id.botonDividir);
         btnDecimal = findViewById(R.id.botonDecimal);
+        btnCambioSigno = findViewById(R.id.botonCambioSigno);
 
         pulsarOperaciones();
     }
@@ -96,6 +99,16 @@ public class pantallaPrincipal extends AppCompatActivity {
         pulsarIgual();
         pulsarLimpiar();
         pulsarDecimal();
+        pulsarCambioSigno();
+    }
+
+    private void pulsarCambioSigno() {
+        btnCambioSigno.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                operacionCamSigno();
+            }
+        });
     }
 
     /**
@@ -216,23 +229,42 @@ public class pantallaPrincipal extends AppCompatActivity {
                     numeroStr = "";
                     desactivarHayDecimales();
                 }
+                operacion = VACIA;
                 cargarEnPantalla(resultado); break;
         }
-        operacion = VACIA;
+
     }
+
+    /**
+     * Cambia el signo del operador
+     */
+    private void operacionCamSigno(){
+        if(numeroStr ==""){
+            resultado = resultado *(-1);
+            cargarEnPantalla(resultado);
+        } else {
+            double num = Double.parseDouble(numeroStr) * (-1);
+            numeroStr = "" + num;
+            cargarEnPantalla(numeroStr);
+        }
+    }
+
 
     /**
      * operación de multiplicar
      */
     private void operacionMult() {
+        if(operacion != VACIA && operacion != MULTIPLICACION)
+            operacionIgual();
+
         if(numeroStr != "")
             sigNumero = Double.parseDouble(numeroStr);
         else
             sigNumero = 1;
 
-        //if (operacion == VACIA)
-        //    this.resultado = sigNumero;
-        //else
+        if (operacion == VACIA)
+            this.resultado = sigNumero;
+        else
             this.resultado = resultado * sigNumero;
         this.operacion = MULTIPLICACION;
         numeroStr = "";
@@ -244,19 +276,22 @@ public class pantallaPrincipal extends AppCompatActivity {
      * operación para dividir
      */
     private void operacionDiv() {
+        if(operacion != VACIA && operacion != DIVISION)
+            operacionIgual();
+
         if(numeroStr != "")
             sigNumero = Double.parseDouble(numeroStr);
         else
             sigNumero = 1;
 
-        //if (operacion == VACIA)
-        //    this.resultado = sigNumero;   // Hasta aquí si
-        //else {
+        if (operacion == VACIA)
+           this.resultado = sigNumero;   // Hasta aquí si
+        else {
             if (sigNumero !=0)
                this.resultado = resultado / sigNumero;
             else
                 this.resultado = 0; //Añadir un mensaje en pantalla y luego a 0
-        //}
+        }
         this.operacion = DIVISION;
         numeroStr = "";
         desactivarHayDecimales();
@@ -270,7 +305,7 @@ public class pantallaPrincipal extends AppCompatActivity {
         this.sigNumero = 0;
         this.resultado = 0;
         this.operacion = VACIA;
-        this.numeroStr = "0";
+        this.numeroStr = "";
         this.hayDecimales = false;
         cargarEnPantalla(resultado);
     }
@@ -279,32 +314,46 @@ public class pantallaPrincipal extends AppCompatActivity {
      * Operación de suma
      */
     private void operacionSuma(){
-        if (numeroStr != "")
+        if(operacion != VACIA && operacion != SUMA)
+            operacionIgual();
+
+        if(numeroStr != "")
             sigNumero = Double.parseDouble(numeroStr);
         else
             sigNumero = 0;
-        this.resultado = resultado + sigNumero;
+
+        if (operacion == VACIA) {   //Deja el primer número en positivo
+            this.resultado = sigNumero;
+        } else {
+            this.resultado = resultado + sigNumero;
+        }
+
         this.operacion = SUMA;
         numeroStr = "";
         desactivarHayDecimales();
         cargarEnPantalla(resultado);
     }
 
+
     /**
      * Operación de resta
      */
     private void operacionResta() {
+        if(operacion != VACIA && operacion != RESTA)
+            operacionIgual();
+
         if(numeroStr != "")
             sigNumero = Double.parseDouble(numeroStr);
         else
             sigNumero = 0;
-        //if (operacion == VACIA) {   //Deja el primer número en positivo
-          //  this.resultado = sigNumero;
-        //} else {
-          //  this.resultado = resultado - sigNumero;
-        //}
 
-        this.resultado = resultado - sigNumero;
+        if (operacion == VACIA) {   //Deja el primer número en positivo
+            this.resultado = sigNumero;
+        } else {
+            this.resultado = resultado - sigNumero;
+        }
+
+        //this.resultado = resultado - sigNumero;
         this.operacion = RESTA;
         numeroStr = "";
         desactivarHayDecimales();
