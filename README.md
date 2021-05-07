@@ -15,10 +15,10 @@ Los botones de números formarán ordenadamente un número hasta que se pulse un
 
 Los botones de operación se pulsan de tal manera que guarda una variable booleana para controlar su uso, y solo funcionará la última operación seleccionada antes de escribir el siguiente número.
 
-<img width="120" aling="center" src="./images/capturasPantalla/capturaInterfaz.png"/>
+<img width="240" aling="center" src="./images/capturasPantalla/capturaInterfaz.png"/>
 
 ### Demostración de Funcionamiento ###
-<img aling="center" src="./images/capturasPantalla/video.gif">
+<img aling="center" width="300" src="./images/capturasPantalla/video.gif">
 
 ## Descarga la APK ##
 Prueba la aplicación desde [aquí.](https://github.com/alemolamg/calculadoraAndroid/blob/master/APK/calcAMG.apk)
