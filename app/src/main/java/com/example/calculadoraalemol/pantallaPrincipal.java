@@ -208,7 +208,12 @@ public class pantallaPrincipal extends AppCompatActivity {
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                numeroStr = numeroStr + boton.getText();    //Añado el número pulsado
+                if (((TextView) findViewById(R.id.pantalla)).getText() == "0" ||
+                        ((TextView) findViewById(R.id.pantalla)).getText() == "0.0")
+                    numeroStr ="" + boton.getText();
+                else
+                    numeroStr = numeroStr + boton.getText();    //Añado el número pulsado
+
                 cargarEnPantalla(numeroStr);
             }
         });
