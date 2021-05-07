@@ -51,8 +51,10 @@ public class pantallaPrincipal extends AppCompatActivity {
 
         // Cambio color ventana
         this.ventana = getWindow();
-        this.ventana.setStatusBarColor(Color.parseColor("#00695C"));
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00695C")));
+        this.ventana.setStatusBarColor(Color.parseColor("#00584C"));    //Barra arriba oscura
+        //this.ventana.setStatusBarColor(Color.parseColor("#008D7D"));    //Barra arriba clara
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00584C")));    //Barra arriba oscura
+        //getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#008D7D")));    //Barra arriba clara
     }
 
     /**
@@ -223,7 +225,6 @@ public class pantallaPrincipal extends AppCompatActivity {
             case DIVISION: operacionDiv(); break;
             case MULTIPLICACION: operacionMult(); break;
             case VACIA:
-            default:
                 if(numeroStr != "") {
                     resultado = Double.parseDouble(numeroStr);
                     numeroStr = "";
@@ -232,7 +233,7 @@ public class pantallaPrincipal extends AppCompatActivity {
                 operacion = VACIA;
                 cargarEnPantalla(resultado); break;
         }
-
+        //operacion = VACIA;
     }
 
     /**
@@ -327,6 +328,7 @@ public class pantallaPrincipal extends AppCompatActivity {
         } else {
             this.resultado = resultado + sigNumero;
         }
+
 
         this.operacion = SUMA;
         numeroStr = "";
