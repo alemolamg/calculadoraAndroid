@@ -225,7 +225,6 @@ public class pantallaPrincipal extends AppCompatActivity {
             case DIVISION: operacionDiv(); break;
             case MULTIPLICACION: operacionMult(); break;
             case VACIA:
-            default:
                 if(numeroStr != "") {
                     resultado = Double.parseDouble(numeroStr);
                     numeroStr = "";
@@ -234,7 +233,7 @@ public class pantallaPrincipal extends AppCompatActivity {
                 operacion = VACIA;
                 cargarEnPantalla(resultado); break;
         }
-
+        //operacion = VACIA;
     }
 
     /**
@@ -329,6 +328,7 @@ public class pantallaPrincipal extends AppCompatActivity {
         } else {
             this.resultado = resultado + sigNumero;
         }
+
 
         this.operacion = SUMA;
         numeroStr = "";
