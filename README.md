@@ -20,12 +20,5 @@ Los botones de operación se pulsan de tal manera que guarda una variable boolea
 ### Demostración de Funcionamiento ###
 <img aling="center" src="./images/capturasPantalla/algo**.gif">
 
-
 ## Descarga la APK ##
-Prueba la aplicación desde [aquí.]()
-
-
-
-
-
- 
+Prueba la aplicación desde [aquí.](https://github.com/alemolamg/calculadoraAndroid/blob/master/APK/calcAMG.apk)
