@@ -382,7 +382,11 @@ public class pantallaPrincipal extends AppCompatActivity {
     }
 
     private void cargarEnPantalla(double num){
-        ((TextView) findViewById(R.id.pantalla)).setText(""+num);
+        long entero = (long) num;
+        if(num - entero != 0.0)
+            ((TextView) findViewById(R.id.pantalla)).setText(""+num);
+        else
+            ((TextView) findViewById(R.id.pantalla)).setText(""+entero);
     }
 
     private void desactivarHayDecimales() {
