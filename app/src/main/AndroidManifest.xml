@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.calculadoraalemol">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_calc_new"
@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_calc_new_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CalculadoraAlemol">
-        <activity android:name=".pantallaPrincipal">
+        <activity android:name=".pantallaPrincipal"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
