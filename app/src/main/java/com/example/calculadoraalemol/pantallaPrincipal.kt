@@ -19,7 +19,7 @@ class pantallaPrincipal : AppCompatActivity() {
     private var btnDecimal: Button? = null
     private var hayDecimales = false
     private var btnCambioSigno: Button? = null
-    private val botonesNumeros: MutableList<Button> = ArrayList()
+    private val botonesNumeros: MutableList<Button> = mutableListOf()
     private var numeroStr: String? = null
     private var operacion = 0
     var sigNumero = 0.0
@@ -196,7 +196,7 @@ class pantallaPrincipal : AppCompatActivity() {
     private fun operacionMult() {
         if (operacion != VACIA && operacion != MULTIPLICACION) operacionIgual()
         sigNumero = if (numeroStr !== "") numeroStr!!.toDouble() else 1.0
-        if (operacion == VACIA) resultado = sigNumero else resultado = resultado * sigNumero
+        if (operacion == VACIA) resultado = sigNumero else resultado *= sigNumero
         operacion = MULTIPLICACION
         numeroStr = ""
         desactivarHayDecimales()
@@ -254,10 +254,10 @@ class pantallaPrincipal : AppCompatActivity() {
     private fun operacionResta() {
         if (operacion != VACIA && operacion != RESTA) operacionIgual()
         sigNumero = if (numeroStr !== "") numeroStr!!.toDouble() else 0.0
-        if (operacion == VACIA) {   //Deja el primer número en positivo
-            resultado = sigNumero
+        resultado = if (operacion == VACIA) {   //Deja el primer número en positivo
+            sigNumero
         } else {
-            resultado = resultado - sigNumero
+            resultado - sigNumero
         }
 
         //this.resultado = resultado - sigNumero;
