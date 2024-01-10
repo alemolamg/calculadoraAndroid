@@ -148,7 +148,8 @@ class pantallaPrincipal : AppCompatActivity() {
     private fun pulsarNum(boton: Button) {
         boton.setOnClickListener {
             numeroStr = if ((findViewById<View>(R.id.pantalla) as TextView).text === "0" ||
-                    (findViewById<View>(R.id.pantalla) as TextView).text === "0.0") "" + boton.text else numeroStr + boton.text //Añado el número pulsado
+                (findViewById<View>(R.id.pantalla) as TextView).text === "0.0"
+            ) "" + boton.text else numeroStr + boton.text //Añado el número pulsado
             cargarEnPantalla(numeroStr!!)
         }
     }
@@ -211,7 +212,8 @@ class pantallaPrincipal : AppCompatActivity() {
         sigNumero = if (numeroStr !== "") numeroStr!!.toDouble() else 1.0
         if (operacion == VACIA) resultado = sigNumero // Hasta aquí si
         else {
-            if (sigNumero != 0.0) resultado = resultado / sigNumero else resultado = 0.0 //Añadir un mensaje en pantalla y luego a 0
+            if (sigNumero != 0.0) resultado = resultado / sigNumero else resultado =
+                0.0 //Añadir un mensaje en pantalla y luego a 0
         }
         operacion = DIVISION
         numeroStr = ""
@@ -281,7 +283,8 @@ class pantallaPrincipal : AppCompatActivity() {
 
     private fun cargarEnPantalla(num: Double) {
         val entero = num.toLong()
-        if (num - entero != 0.0) (findViewById<View>(R.id.pantalla) as TextView).text = "" + num else (findViewById<View>(R.id.pantalla) as TextView).text = "" + entero
+        if (num - entero != 0.0) (findViewById<View>(R.id.pantalla) as TextView).text =
+            "" + num else (findViewById<View>(R.id.pantalla) as TextView).text = "" + entero
     }
 
     private fun desactivarHayDecimales() {
